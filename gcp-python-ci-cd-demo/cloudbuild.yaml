@@ -39,3 +39,6 @@ steps:
 
 images:
   - 'australia-southeast2-docker.pkg.dev/gcp-cicd-assignment-python/gcp-python-ci-cd-demo/gcp-python-ci-cd-demo:$SHORT_SHA'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
