@@ -1,0 +1,41 @@
+steps:
+  - name: 'python:3.11'
+    id: 'Install dependencies and run Python tests'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        pip install -r requirements.txt
+        pytest
+
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'Build Python container image'
+    args:
+      - 'build'
+      - '-t'
+      - 'australia-southeast2-docker.pkg.dev/YOUR_PROJECT_ID/YOUR_REPOSITORY_NAME/gcp-python-ci-cd-demo:$SHORT_SHA'
+      - '.'
+
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'Push Python container image'
+    args:
+      - 'push'
+      - 'australia-southeast2-docker.pkg.dev/YOUR_PROJECT_ID/YOUR_REPOSITORY_NAME/gcp-python-ci-cd-demo:$SHORT_SHA'
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    id: 'Deploy Python application to Cloud Run'
+    entrypoint: 'gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'gcp-python-ci-cd-demo'
+      - '--image'
+      - 'australia-southeast2-docker.pkg.dev/YOUR_PROJECT_ID/YOUR_REPOSITORY_NAME/gcp-python-ci-cd-demo:$SHORT_SHA'
+      - '--region'
+      - 'australia-southeast2'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+
+images:
+  - 'australia-southeast2-docker.pkg.dev/YOUR_PROJECT_ID/YOUR_REPOSITORY_NAME/gcp-python-ci-cd-demo:$SHORT_SHA'
