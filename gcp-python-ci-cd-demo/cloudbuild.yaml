@@ -11,6 +11,7 @@ steps:
         
   - name: 'gcr.io/cloud-builders/docker'
     id: 'Build Python container image'
+    dir: 'gcp-python-ci-cd-demo'
     args:
       - 'build'
       - '-t'
