@@ -13,14 +13,14 @@ steps:
     args:
       - 'build'
       - '-t'
-      - 'australia-southeast2-docker.pkg.dev/YOUR_PROJECT_ID/YOUR_REPOSITORY_NAME/gcp-python-ci-cd-demo:$SHORT_SHA'
+      - 'australia-southeast2-docker.pkg.dev/gcp-cicd-assignment-python/gcp-python-ci-cd-demo/gcp-python-ci-cd-demo:$SHORT_SHA'
       - '.'
 
   - name: 'gcr.io/cloud-builders/docker'
     id: 'Push Python container image'
     args:
       - 'push'
-      - 'australia-southeast2-docker.pkg.dev/YOUR_PROJECT_ID/YOUR_REPOSITORY_NAME/gcp-python-ci-cd-demo:$SHORT_SHA'
+      - 'australia-southeast2-docker.pkg.dev/gcp-cicd-assignment-python/gcp-python-ci-cd-demo/gcp-python-ci-cd-demo:$SHORT_SHA'
 
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     id: 'Deploy Python application to Cloud Run'
@@ -30,7 +30,7 @@ steps:
       - 'deploy'
       - 'gcp-python-ci-cd-demo'
       - '--image'
-      - 'australia-southeast2-docker.pkg.dev/YOUR_PROJECT_ID/YOUR_REPOSITORY_NAME/gcp-python-ci-cd-demo:$SHORT_SHA'
+      - 'australia-southeast2-docker.pkg.dev/gcp-cicd-assignment-python/gcp-python-ci-cd-demo/gcp-python-ci-cd-demo:$SHORT_SHA'
       - '--region'
       - 'australia-southeast2'
       - '--platform'
@@ -38,4 +38,4 @@ steps:
       - '--allow-unauthenticated'
 
 images:
-  - 'australia-southeast2-docker.pkg.dev/YOUR_PROJECT_ID/YOUR_REPOSITORY_NAME/gcp-python-ci-cd-demo:$SHORT_SHA'
+  - 'australia-southeast2-docker.pkg.dev/gcp-cicd-assignment-python/gcp-python-ci-cd-demo/gcp-python-ci-cd-demo:$SHORT_SHA'
